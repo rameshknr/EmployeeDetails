@@ -1,0 +1,322 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Employee API",
+    "description": "This is a Employee API created with Express.js. You can find more about it [here](https://github.com/rameshknr/EmployeeDetails).",
+    "contact": {
+      "email": "ramesh.navamani@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations about user"
+    },
+    {
+      "name": "Employee",
+      "description": "Operations about employee"
+    }
+  ],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create a user",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/register"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User created successfully"
+          },
+          "400": {
+            "description": "Invalid payload supplied"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Login a user",
+        "operationId": "loginUser",
+        "requestBody": {
+          "description": "Login user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/login"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User login successfully"
+          },
+          "400": {
+            "description": "Invalid username and password supplied"
+          }
+        }
+      }
+    },
+    "/api/auth/isAuthenticated": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "checking the authentication",
+        "operationId": "authentication",
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "description": "an authorization header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "403":{"description": "Forbidden"},
+          "400": {
+            "description": "Invalid token supplied"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/v1/employee": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get all Employee",
+        "operationId": "getAllEmployee",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid id supplied"
+          },
+          "404": {
+            "description": "Employee not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Add a Employee",
+        "operationId": "addEmployee",
+        "requestBody": {
+          "description": "EMployee object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/employee"
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "description": "an authorization header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Employee added successfully"
+          },
+          "403":{"description": "Forbidden"},
+          "400": {
+            "description": "Invalid Employee detail supplied"
+          }
+        }
+      }
+    },
+    "/api/v1/employee/{id}": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get a Employee by id",
+        "operationId": "getEmployeeById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of a Employee",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid id supplied"
+          },
+          "404": {
+            "description": "Employee not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Update a Employee",
+        "operationId": "updateEmployee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of a Employee to update",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated Employee object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/employee"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Employee updated"
+          },
+          "400": {
+            "description": "Invalid payload supplied"
+          },
+          "404": {
+            "description": "Employee not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Delete a Employee",
+        "operationId": "deleteEmployeeById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of Employee to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User deleted successfully"
+          },
+          "400": {
+            "description": "Invalid id supplied"
+          }  
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "register": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "login": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "employee": {
+        "type": "object",
+        "properties": {
+          "EmployeeCode": {
+            "type": "string"
+          },
+          "EmployeeName": {
+            "type": "string"
+          },
+          "EmployeeDesignation": {
+            "type": "string"
+          },
+          "EmployeeDepartment": {
+            "type": "string"
+          },
+          "EmployeeAddress": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
